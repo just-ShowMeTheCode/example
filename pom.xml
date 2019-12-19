@@ -7,6 +7,7 @@
         <module>filezip</module>
         <module>proxy</module>
         <module>cglibdemo</module>
+        <module>codegenerator</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

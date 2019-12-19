@@ -1,0 +1,107 @@
+package ${package.Controller};
+
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+#if(${restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+    #if(${superControllerClass})
+    public class ${table.controllerName} extends ${superControllerClass} {
+    #else
+    public class ${table.controllerName} {
+    #end
+
+private ${table.serviceName} targetService;
+
+@Autowired
+public ${table.controllerName}(${table.serviceName} targetService){
+        this.targetService=targetService;
+        }
+
+
+        /**
+         * 获取数据列表
+         */
+        @RequestMapping("/list")
+        @ResponseBody
+        public ResponseEntity findListByPage(){
+                return ResponseEntity.ok(null);
+                }
+
+
+        /**
+         * 获取全部数据
+         */
+        @RequestMapping("/all")
+        @ResponseBody
+        public ResponseEntity findAll(){
+                return ResponseEntity.ok(null);
+                }
+
+
+        /**
+         * 根据ID查找数据
+         */
+        @RequestMapping("/find")
+        @ResponseBody
+        public ResponseEntity find(@RequestParam("id") Long id){
+                return ResponseEntity.ok(null);
+                }
+
+
+        /**
+         * 添加数据
+         */
+        @RequestMapping(value = "/add", method = RequestMethod.POST)
+        @ResponseBody
+        public ResponseEntity addItem(@RequestBody ${entity} ${entity}){
+                return ResponseEntity.ok(null);
+                }
+
+
+        /**
+         * 更新数据
+         */
+        @RequestMapping(value = "/update", method = RequestMethod.POST)
+        @ResponseBody
+        public ResponseEntity updateItem(@RequestBody ${entity} ${entity}){
+                return ResponseEntity.ok(null);
+                }
+
+
+        /**
+         * 删除数据
+         */
+        @RequestMapping("/del")
+        @ResponseBody
+        public ResponseEntity deleteItems(@RequestParam("ids") List<Long> ids){
+                return ResponseEntity.ok(null);
+                }
+}
+
+#end
