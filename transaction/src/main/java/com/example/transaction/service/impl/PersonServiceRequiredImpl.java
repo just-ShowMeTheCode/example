@@ -2,9 +2,10 @@ package com.example.transaction.service.impl;
 
 import com.example.transaction.model.Person;
 import com.example.transaction.dao.PersonMapper;
-import com.example.transaction.service.PersonService;
+import com.example.transaction.service.PersonServiceRequired;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,38 +20,53 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Slf4j
-public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> implements PersonService {
+public class PersonServiceRequiredImpl extends ServiceImpl<PersonMapper, Person> implements PersonServiceRequired {
 
 
     @Override
     public void noTransactionRequiredRequired() {
-       Person person = getPerson();
-        add1(person);
-        add2(person);
+        PersonServiceRequiredImpl currentProxy = (PersonServiceRequiredImpl)AopContext.currentProxy();
+        Person person = getPerson();
+        currentProxy.add1(person);
+        currentProxy.add2(person);
     }
-
 
     @Override
     public void noTransactionRequiredRequiredException() {
+        PersonServiceRequiredImpl currentProxy = (PersonServiceRequiredImpl)AopContext.currentProxy();
         Person person = getPerson();
-        add1(person);
-        add2Exception(person);
+        currentProxy.add1(person);
+        currentProxy.add2Exception(person);
+        currentProxy.add3(person);
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = RuntimeException.class)
     @Override
     public void transactionRequiredRequired() {
+        PersonServiceRequiredImpl currentProxy = (PersonServiceRequiredImpl)AopContext.currentProxy();
         Person person = getPerson();
-        add1(person);
-        add2(person);
+        currentProxy.add1(person);
+        currentProxy.add2(person);
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = RuntimeException.class)
     @Override
     public void transactionRequiredRequiredException() {
+        PersonServiceRequiredImpl currentProxy = (PersonServiceRequiredImpl)AopContext.currentProxy();
         Person person = getPerson();
-        add1(person);
-        add2Exception(person);
+        currentProxy.add1(person);
+        currentProxy.add2Exception(person);
+        currentProxy.add3(person);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = RuntimeException.class)
+    @Override
+    public void transactionRequiredRequiredException2() {
+        PersonServiceRequiredImpl currentProxy = (PersonServiceRequiredImpl)AopContext.currentProxy();
+        Person person = getPerson();
+        currentProxy.add1(person);
+        currentProxy.add2(person);
+        throw new RuntimeException("run time exception");
     }
 
     private Person getPerson() {
@@ -84,13 +100,12 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = RuntimeException.class)
-    @Override
-    public void transactionRequiredRequiredException2() {
-        Person person = getPerson();
-        add1(person);
-        add2(person);
-        throw new RuntimeException("run time exception");
+    public void add3(Person person) {
+        log.info("add3 person");
+        person.setName("name3");
+        this.baseMapper.insert(person);
     }
+
 
     @Override
     public void truncateTable() {

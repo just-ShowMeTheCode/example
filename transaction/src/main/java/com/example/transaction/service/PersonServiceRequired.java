@@ -11,13 +11,16 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author fumj
  * @since 2019-12-17
  */
-public interface PersonService extends IService<Person> {
+public interface PersonServiceRequired extends IService<Person> {
     /**
      * 无事务控制，add1 和 add2 都insert 成功
      */
     void noTransactionRequiredRequired();
     /**
-     * 无事务控制，add1 和 add2 都insert 成功，但add2 执行报错，无事务，不回滚
+     * 无事务控制，
+     * add1 success
+     * add2 fail，rollback
+     * add3 不执行
      */
     void noTransactionRequiredRequiredException();
     /**
@@ -25,12 +28,17 @@ public interface PersonService extends IService<Person> {
      */
     void transactionRequiredRequired();
     /**
-     * 事务控制，add1 和 add2 都insert 失败，事务回滚
+     * 创建一个事务
+     * add1 rollback
+     * add2 rollback
+     * add3 未执行
      */
     void transactionRequiredRequiredException();
 
     /**
-     * 事务控制，add1 和 add2 都insert 失败，事务回滚
+     * 创建一个事务
+     * add1 rollback
+     * add2 rollback
      */
     void transactionRequiredRequiredException2();
 

@@ -1,0 +1,10 @@
+# 同一个serviceImpl 中，在method1 和 method2 上都加上Transactional 关键字，然后再method1中调用method2,那么method2 的transactional注解不起作用。原因如下：
+1.事务注解底层逻辑
+![alt](./pic/事务流程.png)  
+
+2.目标对象内部的自我调用，也就是通过this.指向的目标对象将不会执行方法的增强
+![alt](./pic/同一个类中不同事务注解方法调用.png)
+
+3.可以通过AopContext.currentProxy()获取当前代理类，来调用不同的方法，这样操作会  
+执行方法增强，即事务的执行
+

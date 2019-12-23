@@ -1,6 +1,6 @@
 package com.example.transaction;
 
-import com.example.transaction.service.PersonServiceRequired;
+import com.example.transaction.service.PersonServiceRequiredNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @date 2019/12/2015:51
  */
 @SpringBootTest(classes =  TransactionApplication.class,webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class TransactionRequireTest {
+public class TransactionRequireNewTest {
 
     @Autowired
-    private PersonServiceRequired targetService;
+    private PersonServiceRequiredNew targetService;
 
     @BeforeEach
     public void before(){
@@ -28,7 +28,7 @@ public class TransactionRequireTest {
      */
     @Test
     public void noTransactionRequiredRequired() {
-        targetService.noTransactionRequiredRequired();
+        targetService.noTransactionRequiredNewRequiredNew();
     }
 
     /**
@@ -36,23 +36,23 @@ public class TransactionRequireTest {
      */
     @Test
     public void noTransactionRequiredRequiredException() {
-        targetService.noTransactionRequiredRequiredException();
+        targetService.noTransactionRequiredNewRequiredNewException();
     }
 
     /**
      * 添加数据
      */
     @Test
-    public void transactionRequiredRequired() {
-        targetService.transactionRequiredRequired();
+    public void TransactionRequiredNewRequiredNew() {
+        targetService.transactionRequiredNewRequiredNew();
     }
 
     /**
      * 添加数据
      */
     @Test
-    public void TransactionRequiredRequiredException() {
-        targetService.transactionRequiredRequiredException();
+    public void TransactionRequiredNewRequiredNewException() {
+        targetService.transactionRequiredNewRequiredNewException();
     }
 
 
@@ -60,7 +60,7 @@ public class TransactionRequireTest {
      * 添加数据
      */
     @Test
-    public void TransactionRequiredRequiredException2() {
-        targetService.transactionRequiredRequiredException2();
+    public void TransactionRequiredNewRequiredNewException2() {
+        targetService.transactionRequiredNewRequiredNewException2();
     }
 }

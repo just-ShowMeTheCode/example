@@ -1,6 +1,7 @@
 package com.example.transaction;
 
-import com.example.transaction.service.PersonServiceRequired;
+import com.example.transaction.service.PersonServiceNested;
+import com.example.transaction.service.PersonServiceNested;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @date 2019/12/2015:51
  */
 @SpringBootTest(classes =  TransactionApplication.class,webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class TransactionRequireTest {
+public class TransactionNestedTest {
 
     @Autowired
-    private PersonServiceRequired targetService;
+    private PersonServiceNested targetService;
 
     @BeforeEach
     public void before(){
@@ -27,32 +28,32 @@ public class TransactionRequireTest {
      * 添加数据
      */
     @Test
-    public void noTransactionRequiredRequired() {
-        targetService.noTransactionRequiredRequired();
+    public void noTransactionNestedNested() {
+        targetService.noTransactionNestedNested();
     }
 
     /**
      * 添加数据
      */
     @Test
-    public void noTransactionRequiredRequiredException() {
-        targetService.noTransactionRequiredRequiredException();
+    public void noTransactionNestedNestedException() {
+        targetService.noTransactionNestedNestedException();
     }
 
     /**
      * 添加数据
      */
     @Test
-    public void transactionRequiredRequired() {
-        targetService.transactionRequiredRequired();
+    public void transactionNestedNested() {
+        targetService.transactionNestedNested();
     }
 
     /**
      * 添加数据
      */
     @Test
-    public void TransactionRequiredRequiredException() {
-        targetService.transactionRequiredRequiredException();
+    public void TransactionNestedNestedException() {
+        targetService.transactionNestedNestedException();
     }
 
 
@@ -60,7 +61,7 @@ public class TransactionRequireTest {
      * 添加数据
      */
     @Test
-    public void TransactionRequiredRequiredException2() {
-        targetService.transactionRequiredRequiredException2();
+    public void TransactionNestedNestedException2() {
+        targetService.transactionNestedNestedException2();
     }
 }
