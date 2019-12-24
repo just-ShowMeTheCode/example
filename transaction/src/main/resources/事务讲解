@@ -8,3 +8,6 @@
 3.可以通过AopContext.currentProxy()获取当前代理类，来调用不同的方法，这样操作会  
 执行方法增强，即事务的执行
 
+4.总结，REQUIRES_NEW与NESTED的不同在于，父级方法无法控制REQUIRES_NEW的回滚操作；NESTED与REQUIRED的不同在于，REQUIRED无法实现提交父级方法的同时，忽略子方法的异常。
+
+
