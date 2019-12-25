@@ -1,0 +1,5 @@
+# ThreadLocal  
+1.不同的线程中调用同一个类对象的threadlocal变量的get()方法，输出依据线程的不同而不同。
+2.spring 中事务控制时，connect 变量共享就是通过threadlocal实现
+3.ThreadLocal 不解决变量共享问题，看起来像，但其实不是同一回事
+

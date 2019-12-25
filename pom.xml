@@ -8,6 +8,8 @@
         <module>proxy</module>
         <module>cglibdemo</module>
         <module>codegenerator</module>
+        <module>thread</module>
+        <module>designpatten</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
