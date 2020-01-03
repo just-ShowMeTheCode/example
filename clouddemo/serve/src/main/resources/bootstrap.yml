@@ -1,0 +1,68 @@
+server:
+  port: 7500
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    max-connections: 20000
+
+spring:
+  application:
+    name: credit-serve
+  profiles:
+    active: dev
+
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.16.22
+#        server-addr: 47.111.9.173
+        register-enabled: true
+        namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
+        # ip: 47.111.9.173
+      config:
+        server-addr: 172.16.16.22:8848
+#        server-addr: 47.111.9.173:8848
+        file-extension: yaml
+        namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
+  mail:
+    host: smtp.163.com
+    username: efniwefief334@163.com
+    password: 12345678cc
+    default-encoding: UTF-8
+    #    defaultEncoding: GBK
+    properties:
+      mail:
+        smtp:
+          connectiontimeout: 10000
+          timeout: 10000
+          writetimeout: 10000
+          # 开启用户身份验证
+          auth: true
+          ssl:
+            trust: smtp.163.com
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 465
+          starttls:
+            enable: true
+            required: true
+  #    设置freemarker
+  freemarker:
+    allow-request-override: false
+    #    开发过程建议关闭缓存
+    cache: true
+    check-template-location: false
+    charset: UTF-8
+    content-type: text/html; charset=utf-8
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: false
+    request-context-attribute:
+    # 默认后缀就是.ftl
+    suffix: .ftl
+    template-loader-path: /templates/
+
+logging:
+  level:
+    com.alibaba.nacos.client.naming: error
