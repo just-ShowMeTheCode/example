@@ -39,18 +39,18 @@ spring:
         register-enabled: true
         server-addr: 172.16.16.22
         namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
-#        server-addr: 172.16.16.22
       config:
         file-extension: yaml
         server-addr: 172.16.16.22:8848
         namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
-  redis:
-    lettuce:
-      pool:
-        max-wait:
-#        server-addr: 172.16.16.22:8848
-
 
 logging:
   level:
     com.alibaba.nacos.client.naming: error
+feign:
+  hystrix:
+    enabled: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false

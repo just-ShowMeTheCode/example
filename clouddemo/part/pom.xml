@@ -12,7 +12,12 @@
     <artifactId>part</artifactId>
 
     <dependencies>
-
+        <!-- Hystrix 监控 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
+            <version>2.2.1.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -44,18 +49,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-
-        <!-- Hystrix 监控 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
-            <version>2.2.1.RELEASE</version>
-        </dependency>
         <!-- 监控端点, 采集应用指标 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -67,11 +60,15 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-        <!-- 引入服务容错 Hystrix 的依赖 -->
+        <!-- 引入服务容错 Hystrix 的依赖  单体监控-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
+
+
+
+
 
         <!--SW trace 跟踪-->
         <dependency>

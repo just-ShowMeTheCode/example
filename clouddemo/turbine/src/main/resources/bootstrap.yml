@@ -1,5 +1,5 @@
 server:
-  port: 7500
+  port: 7010
   tomcat:
     uri-encoding: UTF-8
     max-threads: 1000
@@ -7,7 +7,7 @@ server:
 
 spring:
   application:
-    name: credit-serve
+    name: credit-turbine
   profiles:
     active: dev
   cloud:
@@ -20,26 +20,8 @@ spring:
         server-addr: 172.16.16.22:8848
         file-extension: yaml
         namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
-feign:
-  httpclient:
-    enabled: false
-  okhttp:
-    enabled: true
-  hystrix:
-    enabled: true
-
-# ribbon
-ribbon:
-  ConnectTimeout: 1000
-  ReadTimeout: 2000
-  eager-load:
-    enabled: true
-  okhttp:
-    enabled: true
-
-# 配置feign 日志日志
-logging:
-  level:
-    com.cloudemo.serve.client.PartApiService: debug
-
+turbine:
+  app-config: credit-part,credit-serve,credit-data
+  combine-host-port: true
+  cluster-name-expression: new String("default")
 

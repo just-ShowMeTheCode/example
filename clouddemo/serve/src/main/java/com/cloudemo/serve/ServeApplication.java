@@ -1,13 +1,12 @@
 package com.cloudemo.serve;
 
+import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
-import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @author fumj
@@ -16,15 +15,20 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @date 2020/1/314:19
  */
 @EnableFeignClients
-@EnableCircuitBreaker
+@SpringCloudApplication
 @EnableHystrix
-@EnableDiscoveryClient
-@EnableHystrixDashboard
-@SpringBootApplication
-@EnableScheduling
-
 public class ServeApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServeApplication.class,args);
+    }
+
+    @Bean
+    public ServletRegistrationBean getServlet(){
+        HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet );
+        registrationBean.setLoadOnStartup(1);
+        registrationBean.addUrlMappings("/hystrix.stream");
+        registrationBean.setName("HystrixMetricsStreamServlet");
+        return registrationBean;
     }
 }

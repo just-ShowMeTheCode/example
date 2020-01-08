@@ -16,6 +16,8 @@
         <module>part</module>
         <module>serve</module>
         <module>data</module>
+        <module>hystrix</module>
+        <module>turbine</module>
     </modules>
 
 
