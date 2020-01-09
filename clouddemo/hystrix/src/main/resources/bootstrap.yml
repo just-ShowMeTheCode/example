@@ -21,3 +21,8 @@ spring:
         file-extension: yaml
         namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
 
+turbine:
+  app-config: credit-part,credit-serve,credit-data
+  combine-host-port: true
+  cluster-name-expression: new String("default")
+  instanceUrlSuffix: /hystrix.stream

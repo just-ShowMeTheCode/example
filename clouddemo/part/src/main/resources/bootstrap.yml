@@ -54,3 +54,4 @@ feign:
     enabled: true
   httpclient:
     enabled: false
+

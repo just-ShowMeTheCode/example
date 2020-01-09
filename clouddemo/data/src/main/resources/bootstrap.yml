@@ -37,15 +37,23 @@ spring:
     nacos:
       discovery:
         server-addr: 172.16.16.22
-#        server-addr: 47.111.9.173
+        #        server-addr: 47.111.9.173
         register-enabled: true
         namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
         # ip: 47.111.9.173
       config:
         server-addr: 172.16.16.22:8848
-#        server-addr: 47.111.9.173:8848
+        #        server-addr: 47.111.9.173:8848
         file-extension: yaml
         namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
 logging:
   level:
     com.alibaba.nacos.client.naming: error
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        exclude: '*'
