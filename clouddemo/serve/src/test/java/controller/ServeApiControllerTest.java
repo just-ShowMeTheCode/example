@@ -23,18 +23,27 @@ public class ServeApiControllerTest {
     public void test1() throws Exception{
         Map<String,Object> params = new HashMap<>();
         params.put("name","fumj");
-        ExecutorService executorService = Executors.newFixedThreadPool(1000);
-        for (int i = 0; i < 500000; i++) {
-            executorService.execute(new Runnable() {
-                @Override
-                public void run() {
-                    HttpUtil.post("http://localhost:7500/api/queryApiData",params);
-                }
-            });
+        ExecutorService executorService = Executors.newFixedThreadPool(20);
+        for (int j = 0; j < 100; j++) {
+            for (int i = 0; i < 5000; i++) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            String response = HttpUtil.post("http://localhost:7500/api/queryApiData",params);
+                            if(response.contains("error")){
+                                log.error(Thread.currentThread().getName() + "\t" + response);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+            TimeUnit.MILLISECONDS.sleep(500);
         }
 
-        executorService.shutdown();
-        executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
+
         log.info("finish request");
     }
 }

@@ -11,6 +11,7 @@
         <module>thread</module>
         <module>designpatten</module>
         <module>clouddemo</module>
+        <module>springaop</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -4,6 +4,7 @@ server:
     uri-encoding: UTF-8
     max-threads: 1000
     max-connections: 20000
+  max-http-header-size: 20480
 
 mybatis-plus:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
@@ -47,6 +48,7 @@ spring:
 logging:
   level:
     com.alibaba.nacos.client.naming: error
+
 feign:
   hystrix:
     enabled: true
@@ -54,4 +56,13 @@ feign:
     enabled: true
   httpclient:
     enabled: false
+
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 20
+      maximumSize: 40
+      maxQueueSize: -1
+      queueSizeRejectionThreshold: 80
 

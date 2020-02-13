@@ -6,6 +6,7 @@ server:
     max-threads: 1000
     max-connections: 20000
 
+
 spring:
   application:
     name: credit-gateway
@@ -23,8 +24,73 @@ spring:
         file-extension: yaml
         namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
 
+
 management:
   endpoints:
     web:
       exposure:
         include: '*'
+
+
+
+ribbon:
+  eager-load:
+    enabled: true
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+  OKToRetryOnAllOperations: true
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+  MaxTotalHttpConnections: 2000
+  MaxConnectionsPerHost: 1000
+
+zuul:
+  host:
+    max-per-route-connections: 50
+    socket-timeout-millis: 10000
+    connect-timeout-millis: 10000
+  semaphore:
+    max-semaphores: 30000
+  sensitive-headers: Access-Control-Allow-Origin
+  ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
+  routes:
+    serve:
+      path: /credit-serve/**
+      serviceId: credit-serve
+      semaphore:
+        maxSemaphores: 500
+    user:
+      path: /credit-user/**
+      serviceId: credit-user
+    part:
+      path: /credit-part/**
+      serviceId: credit-part
+      semaphore:
+        maxSemaphores: 500
+    manage:
+      path: /credit-manage/**
+      serviceId: credit-manage
+    data:
+      path: /credit-data/**
+      serviceId: credit-data
+      semaphore:
+        maxSemaphores: 500
+
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 20
+      maximumSize: 40
+      maxQueueSize: 300
+      queueSizeRejectionThreshold: 600
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+          semaphore:
+            maxConcurrentRequests: 1000
+        circuitBreaker:
+          sleepWindowInMilliseconds:  5000

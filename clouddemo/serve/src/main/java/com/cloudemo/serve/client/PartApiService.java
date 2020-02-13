@@ -1,10 +1,9 @@
 package com.cloudemo.serve.client;
 
+import com.cloudemo.common.bean.Person;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author fumj
@@ -12,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @description: TODO
  * @date 2020/1/716:01
  */
-@FeignClient(value = "credit-part",fallback = PartApiServiceFallBack.class)
+//@FeignClient(value = "credit-part",fallback = PartApiServiceFallBack.class)
+@FeignClient(value = "credit-part",fallbackFactory = PartApiServiceFactory.class)
 public interface PartApiService {
 
-    @RequestMapping(value = "/api/queryApiData",method = RequestMethod.POST)
-    ResponseEntity<String> queryApiData(@RequestParam(value = "name") String name);
+    @PostMapping(value = "/api/queryApiData")
+    ResponseEntity<String> queryApiData(@RequestBody Person person);
 }

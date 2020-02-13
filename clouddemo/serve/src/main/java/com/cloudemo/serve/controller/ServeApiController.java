@@ -1,5 +1,6 @@
 package com.cloudemo.serve.controller;
 
+import com.cloudemo.common.bean.Person;
 import com.cloudemo.serve.client.PartApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,8 @@ public class ServeApiController {
 
     @PostMapping(value = "/queryApiData")
     public ResponseEntity queryApiData(@RequestParam(name = "name") String name){
-      ResponseEntity entity = partApiService.queryApiData(name);
+        Person person = new Person(name);
+      ResponseEntity entity = partApiService.queryApiData(person);
       return entity;
     }
 

@@ -27,6 +27,12 @@
             <artifactId>hutool-all</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.fumj</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- 引入 Feign, 可以以声明的方式调用微服务 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

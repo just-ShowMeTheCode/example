@@ -40,8 +40,35 @@ ribbon:
 # 配置feign 日志日志
 logging:
   level:
-    com.cloudemo.serve.client.PartApiService: debug
+    com.cloudemo.serve.client.PartApiService: error
+    com.alibaba.nacos.client.naming: error
 
-
+#
+hystrix:
+  threadpool:
+    default:
+      coreSize: 20
+      maximumSize: 40
+      maxQueueSize: 300
+      queueSizeRejectionThreshold: 600
+  command:
+    default:
+      circuitBreaker:
+        requestVolumeThreshold: 1000
+      fallback:
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 100
+      coreSize: 50
+      maximumSize: 300
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: -1
+      metrics:
+        rollingStats:
+          numBuckets: 50
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
 
 

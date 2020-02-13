@@ -1,5 +1,5 @@
 server:
-  port: 7000
+  port: 9000
   tomcat:
     uri-encoding: UTF-8
     max-threads: 1000
@@ -13,12 +13,17 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 172.16.16.22
         register-enabled: true
+        server-addr: 172.16.16.22
         namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
+#        server-addr: 47.99.203.15
+#        namespace: d4551229-cf88-4f8e-902c-7b91d9d31ddf
+
       config:
-        server-addr: 172.16.16.22:8848
         file-extension: yaml
+#        server-addr: 47.99.203.15:8848
+#        namespace: d4551229-cf88-4f8e-902c-7b91d9d31ddf
+        server-addr: 172.16.16.22:8848
         namespace: 9fe709c9-ad4d-4e42-b826-87a1af55ebe3
 
 turbine:

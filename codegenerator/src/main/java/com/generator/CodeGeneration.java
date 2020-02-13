@@ -31,14 +31,14 @@ public class CodeGeneration {
 
     @SuppressWarnings({"AlibabaMethodTooLong", "AlibabaRemoveCommentedCode"})
     public static void generator() throws IOException {
-        String modelName = "transaction";
-        String[] tables = {"t_person"};
+        String modelName = "aop";
+        String[] tables = {"t_component"};
 
         AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = "D:\\work_code\\example\\transaction";
+        String projectPath = "D:\\work_code\\example\\springaop";
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setFileOverride(true);
         gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false
@@ -63,7 +63,7 @@ public class CodeGeneration {
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("root");
-        dsc.setUrl("jdbc:mysql://localhost:3306/transactiontest?serverTimezone=UTC&useUnicode=true&useSSL=false" +
+        dsc.setUrl("jdbc:mysql://localhost:3306/aop?serverTimezone=UTC&useUnicode=true&useSSL=false" +
                 "&characterEncoding=utf8");
         mpg.setDataSource(dsc);
 
@@ -119,9 +119,9 @@ public class CodeGeneration {
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setController("controller.java.vm");
-        templateConfig.setController(null);
-        templateConfig.setService(null);
-        templateConfig.setServiceImpl(null);
+//        templateConfig.setController(null);
+//        templateConfig.setService(null);
+//        templateConfig.setServiceImpl(null);
 
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);

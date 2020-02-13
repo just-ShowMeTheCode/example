@@ -17,7 +17,7 @@
         <module>serve</module>
         <module>data</module>
         <module>hystrix</module>
-        <module>turbine</module>
+        <module>common</module>
     </modules>
 
 
