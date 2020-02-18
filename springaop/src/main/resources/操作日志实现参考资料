@@ -1,0 +1,5 @@
+操作日志参考资料
+
+1.操作日志实现逻辑：https://www.cnblogs.com/wenjunwei/p/9639909.html
+2.自定义注解：https://www.jianshu.com/p/8cbfff715581
+3.aop通知执行顺序：https://blog.csdn.net/qq_32331073/article/details/80596084

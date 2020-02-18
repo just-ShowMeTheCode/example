@@ -1,10 +1,7 @@
 package com.example.aop.controller;
 
 
-import com.example.aop.annotation.OptLog;
-import com.example.aop.enums.OperationType;
 import com.example.aop.service.UserService;
-import com.example.aop.enums.OperationUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +22,6 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/findUserNameByTel")
-    @OptLog(detail = "通过手机号[{{tel}}]获取用户名",level = 3,operationUnit = OperationUnit.USER,operationType =
-            OperationType.SELECT)
     public String findUserNameByTel(@RequestParam("tel") String tel){
         return userService.findUserNameByTel(tel);
     }

@@ -10,8 +10,6 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.constraints.Size;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,7 @@ public class CodeGeneration {
     @SuppressWarnings({"AlibabaMethodTooLong", "AlibabaRemoveCommentedCode"})
     public static void generator() throws IOException {
         String modelName = "aop";
-        String[] tables = {"t_component"};
+        String[] tables = {"t_opt_log_summary"};
 
         AutoGenerator mpg = new AutoGenerator();
 

@@ -1,9 +1,8 @@
 package com.example.aop.annotation;
 
 
-
+import cn.hutool.core.util.StrUtil;
 import com.example.aop.enums.OperationType;
-import com.example.aop.enums.OperationUnit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -19,12 +18,38 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OptLog {
-    // 方法描述，可以使用占位符{{}}
-    String detail() default "";
-    // 日志登等级，1-9
-    int level() default 0;
+    // 需要展示的列名
+    String detail() ;
+
+    /**
+     * 数据库列名，忽略大小写
+     *
+     * @return
+     */
+    String columnName() ;
+
+    /**
+     * 列名对应的参数名字，
+     * 1.如果该值为空，则默认与columnName相同
+     * 2.如果不为空，则从参数中取值时使用该参数值
+     * @return
+     */
+    String columnParamterName() default "";
+
+    /**
+     * 数据库表名
+     * @return
+     */
+    String tableName() ;
+
+    /**
+     * 批量删除是字符串连接符
+     * example: 按照id删除时，格式为1,2,3
+     * @return
+     */
+    String strSeparator() default StrUtil.COMMA;
+
     // 操作类型
-    OperationType operationType() default OperationType.UNKNOWN;
-    // 被操作的对象
-    OperationUnit operationUnit() default OperationUnit.UNKNOWN;
+    OperationType operationType() ;
+
 }
