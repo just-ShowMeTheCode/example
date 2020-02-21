@@ -30,7 +30,7 @@ public class CodeGeneration {
     @SuppressWarnings({"AlibabaMethodTooLong", "AlibabaRemoveCommentedCode"})
     public static void generator() throws IOException {
         String modelName = "aop";
-        String[] tables = {"t_opt_log_summary"};
+        String[] tables = {"t_person"};
 
         AutoGenerator mpg = new AutoGenerator();
 

@@ -18,8 +18,10 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OptLog {
-    // 需要展示的列名
-    String detail() ;
+    /**
+     * 概要内容展示的列名
+     */
+    String summaryColumnName() ;
 
     /**
      * 数据库列名，忽略大小写

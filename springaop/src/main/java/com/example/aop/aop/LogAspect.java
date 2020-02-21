@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.example.aop.annotation.OptLog;
 import com.example.aop.dao.ApiLogMapper;
 import com.example.aop.dao.OptLogDetailMapper;
@@ -42,6 +43,7 @@ public class LogAspect {
     private static final String COLUMN = "column";
     private static final String OLD_VALUE = "old_value";
     private static final String NEW_VALUE = "new_value";
+    private static final String SUCCCESS_ID = "success_id";
 
     private final ApiLogMapper apiLogMapper;
     private final OptLogSummaryMapper logSummaryMapper;
@@ -123,10 +125,35 @@ public class LogAspect {
             List<OperationLog> list = deleteDifferenceField(operationLog);
             logList.addAll(list);
         }
-        log.info("{}", StrUtil.repeat("+", 48));
-        log.info(new Gson().toJson(logList));
-        log.info("{}", StrUtil.repeat("+", 48));
+
+        // 解析summaryColumnValue
+        parseSummartColumnValue(logList);
+        log.debug("{}", StrUtil.repeat("+", 48));
+        log.debug(new Gson().toJson(logList));
+        log.debug("{}", StrUtil.repeat("+", 48));
         saveOptLog(logList);
+    }
+
+
+    /**
+     * 解析summaryColumnValue
+     * @param logList
+     * @return
+     */
+    private List<OperationLog> parseSummartColumnValue(List<OperationLog> logList) {
+        Map<String,Object> map = null;
+        List<OperationLog> copyLogList = new ArrayList<>(logList.size());
+        for(OperationLog log : logList){
+            if(OperationType.INSERT.getValue().equals(log.getOperationType()) ||
+            OperationType.UPDATE.getValue().equals(log.getOperationType())){
+                map = log.getAfterOperatorDatabaseRecordList().get(0);
+            }else if(OperationType.DELETE.getValue().equals(log.getOperationType())){
+                map = log.getBeforeOperatorDatabaseRecordList().get(0);
+            }
+            log.setSummaryColumnValue(map.get(log.getSummaryColumnName()));
+            copyLogList.add(log);
+        }
+        return copyLogList;
     }
 
     /**
@@ -134,8 +161,10 @@ public class LogAspect {
      * @param logList
      */
     private void saveOptLog(List<OperationLog> logList) {
+        long traceId = IdWorker.getId();
         for(OperationLog log : logList){
             OptLogSummary optLog = createOptLogSummary(log);
+            optLog.setTraceId(traceId);
             OptLogDetail logDetail = createOptLogDetail(log);
             OptLogOriginal logOriginal = createOptLogOriginal(log);
             logSummaryMapper.insert(optLog);
@@ -157,8 +186,8 @@ public class LogAspect {
         logOriginal.setBeforeOperatorData(new Gson().toJson(log.getBeforeOperatorDatabaseRecordList()));
         logOriginal.setAfterOperatorData(new Gson().toJson(log.getAfterOperatorDatabaseRecordList()));
         logOriginal.setReturnValue(log.getReturnValue());
-        logOriginal.setShowColumnName(log.getShowColumnName());
-        logOriginal.setShowColumnValue(log.getShowColumnValue());
+        logOriginal.setSummaryColumnName(log.getSummaryColumnName());
+        logOriginal.setSummaryColumnValue(new Gson().toJson(log.getSummaryColumnValue()));
         logOriginal.setCreateTime(LocalDateTime.now());
         return logOriginal;
 
@@ -166,7 +195,6 @@ public class LogAspect {
 
     private OptLogDetail createOptLogDetail(OperationLog log) {
         OptLogDetail logDetail = new OptLogDetail();
-        logDetail.setDiffFieldValue("");
         logDetail.setDiffFieldValue(log.getDifferenceFieldValue());
         return logDetail;
 
@@ -190,7 +218,7 @@ public class LogAspect {
         StringBuilder builder = new StringBuilder();
         builder.append(getOperatorTypeDesc(log.getOperationType()))
                 .append("[")
-                .append(log.getShowColumnValue())
+                .append(log.getSummaryColumnValue())
                 .append("]");
         return builder.toString();
     }
@@ -229,7 +257,7 @@ public class LogAspect {
             }else if(!oldValue.equals(newValue)){
                 object = new JSONObject();
                 object.put(COLUMN,key);
-                object.put(OLD_VALUE,"");
+                object.put(OLD_VALUE,oldValue);
                 object.put(NEW_VALUE,newValue);
             }
             if(object != null){
@@ -248,9 +276,12 @@ public class LogAspect {
         List<OperationLog> differenceList = new ArrayList<>();
         List<Map<String,Object>> list = operationLog.getBeforeOperatorDatabaseRecordList();
         for(Map<String,Object> item : list){
+            List<Map<String,Object>> temp = new ArrayList<>(1);
+            temp.add(item);
             OperationLog target = new OperationLog();
             BeanUtils.copyProperties(operationLog,target);
-            target.setDifferenceFieldValue(getDifferenceJSONObject(item).toString());
+            target.setDifferenceFieldValue(getDeleteDifferenceJSONObject(item).toString());
+            target.setBeforeOperatorDatabaseRecordList(temp);
             differenceList.add(target);
         }
         return differenceList;
@@ -263,13 +294,27 @@ public class LogAspect {
      */
     private void insertDifferenceField(OperationLog operationLog) {
         List<Map<String,Object>> list = operationLog.getAfterOperatorDatabaseRecordList();
-        operationLog.setDifferenceFieldValue(getDifferenceJSONObject(list.get(0)).toString());
+        operationLog.setDifferenceFieldValue(getInsertDifferenceJSONObject(list.get(0)).toString());
     }
 
 
 
 
-    private JSONArray getDifferenceJSONObject(Map<String, Object> map) {
+    private JSONArray getDeleteDifferenceJSONObject(Map<String, Object> map) {
+        JSONArray arr = new JSONArray();
+        Iterator<String> itors = map.keySet().iterator();
+        while (itors.hasNext()) {
+            String key = itors.next();
+            JSONObject object = new JSONObject();
+            object.put(COLUMN, key);
+            object.put(OLD_VALUE, map.get(key));
+            object.put(NEW_VALUE, "");
+            arr.add(object);
+        }
+        return arr;
+    }
+
+    private JSONArray getInsertDifferenceJSONObject(Map<String, Object> map) {
         JSONArray arr = new JSONArray();
         Iterator<String> itors = map.keySet().iterator();
         while (itors.hasNext()) {
@@ -321,6 +366,7 @@ public class LogAspect {
         operationLog.setColumnName(logAnnocation.columnName());
         operationLog.setColumnParamterName(logAnnocation.columnParamterName());
         operationLog.setOperationType(logAnnocation.operationType().getValue());
+        operationLog.setSummaryColumnName(logAnnocation.summaryColumnName());
     }
 
     /**
@@ -367,8 +413,13 @@ public class LogAspect {
      * @param operationLog
      */
     private void parseSaveResult(OperationLog operationLog) {
+        JSONObject jsonObject = JSONObject.parseObject(operationLog.getReturnValue());
+        Object id = jsonObject.getJSONObject("body").get(SUCCCESS_ID);
+        Map<String,Object> map = apiLogMapper.selectMapByKeyFieldFromTable(
+                operationLog.getColumnName(),operationLog.getTableName(),id
+        );
         List<Map<String, Object>> list = new ArrayList<>(16);
-        list.add(operationLog.getRequestParamsAndValue());
+        list.add(map);
         operationLog.setAfterOperatorDatabaseRecordList(list);
     }
 
@@ -381,15 +432,26 @@ public class LogAspect {
     private void parseRecordBeforeExecuteMethod(OptLog logAnnocation, OperationLog operationLog) {
 
         JSONObject argsAndValueJsonObject = convertMapToJsonObject(operationLog.getRequestParamsAndValue());
-        // 参数值提取
-        Object keyFieldValue = getKeyFieldValue(argsAndValueJsonObject, operationLog.getColumnParamterName());
-        if (keyFieldValue == null) {
-            // 找不到对应属性的值
-            log.warn("columnParamterName:{} not exist", operationLog.getColumnParamterName());
-            return;
+        String paramsColumnName = operationLog.getColumnParamterName();
+        if(StrUtil.isBlank(paramsColumnName)){
+            paramsColumnName = StrUtil.toCamelCase(operationLog.getColumnName());
         }
-        operationLog.setColumnValue(keyFieldValue);
         OperationType operationType = logAnnocation.operationType();
+
+        // insert操作，不需要查询数据库获取历史数据
+        if(operationType.equals(OperationType.UPDATE) || operationType.equals(OperationType.DELETE)){
+            // 参数值提取
+            Object keyFieldValue = getKeyFieldValue(argsAndValueJsonObject, paramsColumnName);
+            if (keyFieldValue == null) {
+                // 找不到对应属性的值
+                log.warn("method:{}\tcolumnParamterName:{} not exist", operationLog.getMethod(),
+                        paramsColumnName);
+                return;
+            }
+            operationLog.setColumnValue(keyFieldValue);
+
+        }
+
         switch (operationType) {
 
             case INSERT:
@@ -554,6 +616,9 @@ public class LogAspect {
      * @return
      */
     Object getKeyFieldValue(JSONObject argsAndValueJsonObject, String keyField) {
+        if(StrUtil.isBlank(keyField)){
+            return null;
+        }
         if (argsAndValueJsonObject.containsKey(keyField)) {
             return argsAndValueJsonObject.get(keyField);
         }
@@ -581,7 +646,7 @@ public class LogAspect {
         for (int i = 0; i < argNames.length; i++) {
             map.put(argNames[i], args[i]);
         }
-        String detail = annotation.detail();
+        String detail = annotation.summaryColumnName();
         try {
             detail = "'" + "#{currentUserName}" + "'=>" + detail;
             for (Map.Entry<Object, Object> entry : map.entrySet()) {

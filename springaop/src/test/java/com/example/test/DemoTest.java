@@ -1,6 +1,9 @@
 package com.example.test;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import org.junit.Test;
+import org.springframework.http.ResponseEntity;
 
 /**
  * @author fumj
@@ -12,7 +15,8 @@ public class DemoTest {
 
     @Test
     public void test1(){
-        Object[] arr = new String[3];
-        System.out.println(arr.getClass().isArray());
+        JSONObject obj = new JSONObject();
+        obj.put("success_id",12);
+        System.out.println(new Gson().toJson( ResponseEntity.ok(obj)));
     }
 }
