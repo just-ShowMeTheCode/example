@@ -29,14 +29,14 @@ public class CodeGeneration {
 
     @SuppressWarnings({"AlibabaMethodTooLong", "AlibabaRemoveCommentedCode"})
     public static void generator() throws IOException {
-        String modelName = "aop";
-        String[] tables = {"t_person"};
+        String modelName = "demo";
+        String[] tables = {"t_company"};
 
         AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = "D:\\work_code\\example\\springaop";
+        String projectPath = "D:\\work_code\\example\\springbootdemo";
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setFileOverride(true);
         gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false
@@ -86,7 +86,7 @@ public class CodeGeneration {
         pc.setMapper("dao");
         pc.setEntity("model");
         pc.setModuleName(modelName);
-        pc.setParent("com.example");
+        pc.setParent("com.springboot");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
