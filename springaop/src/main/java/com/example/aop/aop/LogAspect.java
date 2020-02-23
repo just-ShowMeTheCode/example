@@ -79,6 +79,13 @@ public class LogAspect {
                 parseMethodArgsAndValue(joinPoint, operationLog);
                 parseRecordBeforeExecuteMethod(logAnnocation, operationLog);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+
             res = joinPoint.proceed();
             time = System.currentTimeMillis() - time;
 
