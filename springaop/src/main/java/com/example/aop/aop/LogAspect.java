@@ -1,4 +1,5 @@
 package com.example.aop.aop;
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
@@ -65,6 +66,7 @@ public class LogAspect {
     @Around("operationLog()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info(StrUtil.repeat("=", 24) + "start around");
+
         Object res = null;
         long time = System.currentTimeMillis();
         OperationLog operationLog = new OperationLog();
