@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.aop.dao.ComponentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.aop.model.Component">
+        <id column="COMPONENT_ID" property="componentId" />
+        <result column="COMPONENT_NO" property="componentNo" />
+        <result column="COMPONENT_NAME" property="componentName" />
+        <result column="SWICH_CODE" property="swichCode" />
+        <result column="ORIGINATOR" property="originator" />
+        <result column="OPERATOR" property="operator" />
+        <result column="TYPE" property="type" />
+        <result column="PURPOSE" property="purpose" />
+        <result column="OFFICE_ID" property="officeId" />
+        <result column="DEPARTMENT_ID" property="departmentId" />
+        <result column="SOURCE_ID" property="sourceId" />
+        <result column="REMARK" property="remark" />
+        <result column="EFFECT_STATE" property="effectState" />
+        <result column="EFFECT_DATE" property="effectDate" />
+        <result column="COMPONENT_CONTENT" property="componentContent" />
+        <result column="COMPONENT_CONTENT_CN" property="componentContentCn" />
+        <result column="INCLUDE_COMPONENTS" property="includeComponents" />
+        <result column="COMPONENT_FIELD_LENGTH" property="componentFieldLength" />
+        <result column="COMPONENT_FIELD_TYPE" property="componentFieldType" />
+        <result column="COMPONENT_CONTENT_TYPE" property="componentContentType" />
+        <result column="STATE" property="state" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+</mapper>

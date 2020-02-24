@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.aop.dao.ApiLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.aop.model.ApiLog">
+        <result column="API_LOG_ID" property="apiLogId" />
+        <result column="API_URL" property="apiUrl" />
+        <result column="contents" property="contents" />
+    </resultMap>
+    <insert id="batchInsert">
+
+    </insert>
+    <select id="selectMapByKeyFieldFromTable" resultType="java.util.Map">
+        select * from ${tableName} where state = 0 and ${columnName} = #{columnValue}
+    </select>
+
+
+    <select id="selectListMapByKeyFieldFromTable" resultType="java.util.Map">
+        select * from ${tableName} where state = 0
+          <if test="list != null and list.size() > 0">
+              and ${columnName} in (
+              <foreach collection="list" index="index" item="item" separator=",">
+               #{item}
+              </foreach>
+              )
+          </if>
+
+    </select>
+
+</mapper>
