@@ -2,9 +2,6 @@ package com.proxy.dymanic.jdk;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
-
 /**
  * @author fumj
  * @projectName example
@@ -13,12 +10,12 @@ import java.lang.reflect.Proxy;
  */
 @Slf4j
 public class JDKDymanciTest {
-    public static void main(String[] args) {
-        log.info("first proxy method");
-        Person person = new SoftwareEngineer();
-        InvocationHandler invocationHandler = new PersonInvocationHandler<>(person);
-        Person proxyPerson = (Person)Proxy.newProxyInstance(Person.class.getClassLoader(),new Class[]{Person.class},
-                invocationHandler);
-        proxyPerson.say();
-    }
+//    public static void main(String[] args) {
+//        log.info("first proxy method");
+//        Person person = new SoftwareEngineer();
+//        InvocationHandler invocationHandler = new PersonInvocationHandler<>(person);
+//        Person proxyPerson = (Person)Proxy.newProxyInstance(Person.class.getClassLoader(),new Class[]{Person.class},
+//                invocationHandler);
+//        proxyPerson.say();
+//    }
 }

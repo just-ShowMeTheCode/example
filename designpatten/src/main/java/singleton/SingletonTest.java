@@ -7,7 +7,7 @@ package singleton;
  * @date 2019/6/2016:28
  */
 public class SingletonTest {
-    public static void main(String[] args) {
-        Singleton.INSTANCE.doSomething();
-    }
+//    public static void main(String[] args) {
+//        Singleton.INSTANCE.doSomething();
+//    }
 }

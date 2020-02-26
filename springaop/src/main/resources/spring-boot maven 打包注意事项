@@ -1,0 +1,16 @@
+1.maven 打包可以分为可执行jar和不可执行jar ,默认打包出来的jar包是不可执行的。
+在spring-boot 项目中，可以添加maven插件，打包成可执行jar包。配置如下：  
+
+    <build>
+      <plugins>
+          <plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+          </plugin>
+      </plugins>
+    </build> 
+
+
+2.当引入第三方jar包时，引入的jar包必须是不可执行jar包。如果强制引入可执行jar包，编译是会出错，提示找不到引用类
+
+3.spring-boot 默认使用logback 日志框架
