@@ -3,3 +3,7 @@
 1.操作日志实现逻辑：https://www.cnblogs.com/wenjunwei/p/9639909.html
 2.自定义注解：https://www.jianshu.com/p/8cbfff715581
 3.aop通知执行顺序：https://blog.csdn.net/qq_32331073/article/details/80596084
+4、使用threadlocal 实现变量传递功能
+5、mybatis 自动设置主键id 配置：
+	1.如果批量插入，在xml 文件中 添加属性：keyProperty="id" useGeneratedKeys="true"
+	2.mapper 中参数设置为@Param("list")序：https://blog.csdn.net/qq_32331073/article/details/80596084

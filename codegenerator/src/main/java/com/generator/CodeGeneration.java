@@ -29,14 +29,14 @@ public class CodeGeneration {
 
     @SuppressWarnings({"AlibabaMethodTooLong", "AlibabaRemoveCommentedCode"})
     public static void generator() throws IOException {
-        String modelName = "demo";
-        String[] tables = {"t_opt_log_summary","t_opt_log_detail","t_opt_log_original"};
+        String modelName = "web";
+        String[] tables = {"t_person"};
 
         AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = "D:\\work_code\\example\\springbootdemo";
+        String projectPath = "D:\\work_code\\demo\\";
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setFileOverride(true);
         gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false
@@ -86,7 +86,7 @@ public class CodeGeneration {
         pc.setMapper("dao");
         pc.setEntity("model");
         pc.setModuleName(modelName);
-        pc.setParent("com.springboot");
+        pc.setParent("com.demo");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -117,9 +117,9 @@ public class CodeGeneration {
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setController("controller.java.vm");
-//        templateConfig.setController(null);
-//        templateConfig.setService(null);
-//        templateConfig.setServiceImpl(null);
+        templateConfig.setController(null);
+        templateConfig.setService(null);
+        templateConfig.setServiceImpl(null);
 
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
