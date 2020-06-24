@@ -1,6 +1,7 @@
 package ${package.Controller};
 
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 #if(${restControllerStyle})
@@ -47,9 +48,9 @@ public ${table.controllerName}(${table.serviceName} targetService){
         /**
          * 获取数据列表
          */
-        @RequestMapping("/list")
+        @PostMapping("/page")
         @ResponseBody
-        public ResponseEntity findListByPage(){
+        public ResponseEntity page(){
                 return ResponseEntity.ok(null);
                 }
 
@@ -57,7 +58,7 @@ public ${table.controllerName}(${table.serviceName} targetService){
         /**
          * 获取全部数据
          */
-        @RequestMapping("/all")
+        @PostMapping("/all")
         @ResponseBody
         public ResponseEntity findAll(){
                 return ResponseEntity.ok(null);
@@ -67,7 +68,7 @@ public ${table.controllerName}(${table.serviceName} targetService){
         /**
          * 根据ID查找数据
          */
-        @RequestMapping("/find")
+        @PostMapping("/find")
         @ResponseBody
         public ResponseEntity find(@RequestParam("id") Long id){
                 return ResponseEntity.ok(null);
@@ -77,7 +78,7 @@ public ${table.controllerName}(${table.serviceName} targetService){
         /**
          * 添加数据
          */
-        @RequestMapping(value = "/add", method = RequestMethod.POST)
+        @PostMapping(value = "/add")
         @ResponseBody
         public ResponseEntity addItem(@RequestBody ${entity} ${entity}){
                 return ResponseEntity.ok(null);
@@ -87,7 +88,7 @@ public ${table.controllerName}(${table.serviceName} targetService){
         /**
          * 更新数据
          */
-        @RequestMapping(value = "/update", method = RequestMethod.POST)
+        @PostMapping(value = "/update")
         @ResponseBody
         public ResponseEntity updateItem(@RequestBody ${entity} ${entity}){
                 return ResponseEntity.ok(null);
@@ -97,7 +98,7 @@ public ${table.controllerName}(${table.serviceName} targetService){
         /**
          * 删除数据
          */
-        @RequestMapping("/del")
+        @DeleteMapping("/del")
         @ResponseBody
         public ResponseEntity deleteItems(@RequestParam("ids") List<Long> ids){
                 return ResponseEntity.ok(null);

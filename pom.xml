@@ -13,6 +13,8 @@
         <module>clouddemo</module>
         <module>springaop</module>
         <module>springbootdemo</module>
+        <module>rabbitmqdemo</module>
+        <module>kinfe4j-demo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

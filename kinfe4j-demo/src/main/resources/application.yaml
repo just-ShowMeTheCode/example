@@ -1,0 +1,44 @@
+server:
+  port: 8080
+  max-http-header-size: 1024000
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    max-connections: 20000
+
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: cn.com.citydo.user.model
+  global-config:
+    #驼峰下划线转换
+    db-column-underline: true
+    #mp2.3+ 全局表前缀 mp_
+    table-prefix: t_
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #逻辑删除配置
+    db-config:
+      # 逻辑已删除值(默认为 1)
+      logic-delete-value: 1
+      # 逻辑未删除值(默认为 0)
+      logic-not-delete-value: 0
+  configuration:
+    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+    map-underscore-to-camel-case: true
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: l!vWT#mL93
+    url: jdbc:mysql://172.16.24.110:3306/fsp?autoReconnect=true&failOverReadOnly=false&characterEncoding=utf8&autoReconnect=true&useSSL=false&useUnicode=true
+  application:
+    name: knife4jdemo
+  profiles:
+    active: dev
+logging:
+  level:
+    com.alibaba.nacos.client.naming: error

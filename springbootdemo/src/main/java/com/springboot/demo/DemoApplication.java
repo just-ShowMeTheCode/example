@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @MapperScan(basePackages = {"com.springboot.demo.dao","com.example.aop.dao"})
 @ComponentScan(basePackages = {"com.example.aop.aop","com.springboot.demo"})
+
 public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class,args);

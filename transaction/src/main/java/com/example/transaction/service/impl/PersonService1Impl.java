@@ -32,6 +32,7 @@ public class PersonService1Impl extends ServiceImpl<PersonMapper, Person> implem
         Person person = getPerson();
         add1(person);
         personService2.transactionRequired();
+
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = RuntimeException.class)
