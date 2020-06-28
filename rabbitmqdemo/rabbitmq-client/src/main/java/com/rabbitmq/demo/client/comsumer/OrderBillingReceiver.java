@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author fumj
  * @projectName example
- * @description: TODO
+ * @description: 消费队列
  * @date 2020/4/1618:00
  */
 @Component
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class OrderBillingReceiver {
 
 
-    @RabbitListener(queues = "${spring.rabbitmq.queue.orderbilling}")
+    @RabbitListener(queues = "${mq.queue}")
     @RabbitHandler
     public void process(String message){
         log.info("receive message:{}",message);

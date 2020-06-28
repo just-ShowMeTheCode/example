@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 public class SendMessageController {
 
-    @Value("${spring.rabbitmq.queue.orderbilling}")
+    @Value("${mq.queue}")
     private String queue;
 
 

@@ -29,14 +29,14 @@ public class CodeGeneration {
 
     @SuppressWarnings({"AlibabaMethodTooLong", "AlibabaRemoveCommentedCode"})
     public static void generator() throws IOException {
-        String modelName = "order";
-        String[] tables = {"t_order_state_change_remark"};
+        String modelName = "rabbitmq";
+        String[] tables = {"t_message"};
 
         AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = "D:\\work_code\\example\\kinfe4j-demo";
+        String projectPath = "D:\\work_code\\rabbitmq";
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setFileOverride(true);
         gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false
@@ -59,10 +59,15 @@ public class CodeGeneration {
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
         dsc.setDriverName("com.mysql.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("l!vWT#mL93");
-        dsc.setUrl("jdbc:mysql://172.16.24.110:3306/fsp?serverTimezone=UTC&useUnicode=true&useSSL=false" +
+//        dsc.setUsername("root");
+//        dsc.setPassword("l!vWT#mL93");
+//        dsc.setUrl("jdbc:mysql://172.16.24.110:3306/fsp?serverTimezone=UTC&useUnicode=true&useSSL=false" +
+//                "&characterEncoding=utf8");
+                dsc.setUsername("root");
+        dsc.setPassword("root");
+        dsc.setUrl("jdbc:mysql://localhost:3306/mq_message?serverTimezone=UTC&useUnicode=true&useSSL=false" +
                 "&characterEncoding=utf8");
+
         mpg.setDataSource(dsc);
 
         // 策略配置
@@ -87,6 +92,7 @@ public class CodeGeneration {
         pc.setEntity("model");
         pc.setModuleName(modelName);
         pc.setParent("cn.com.citydo");
+        pc.setParent("com.demo");
         mpg.setPackageInfo(pc);
 
         // 自定义配置

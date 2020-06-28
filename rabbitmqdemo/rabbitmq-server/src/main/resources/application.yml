@@ -6,20 +6,18 @@ spring:
     name: rabbitmq-server
   #配置rabbitMq 服务器
   rabbitmq:
-    host: 47.99.203.15
+    host: 172.16.24.52
     port: 5672
     username: guest
     password: guest
     virtual-host: /
-    queue:
-      orderbilling: order-billing-queue
-    #虚拟host 可以不设置,使用server默认host
-    publisher-confirm-type: simple
-    publisher-returns: true
-    publisher-confirms: true
-    listener:
-      direct:
-        acknowledge-mode: manual
-      simple:
-        acknowledge-mode: manual
-#    virtual-host: JCcccHost
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: l!vWT#mL93
+    url: jdbc:mysql://172.16.24.110:3306/fsp?autoReconnect=true&failOverReadOnly=false&characterEncoding=utf8&autoReconnect=true&useSSL=false&useUnicode=true
+
+
+mq:
+  exchange: exchange2
+  queue: Q2

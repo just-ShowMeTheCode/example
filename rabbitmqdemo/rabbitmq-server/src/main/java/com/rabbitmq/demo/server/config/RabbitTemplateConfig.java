@@ -5,7 +5,6 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
@@ -15,7 +14,7 @@ import javax.annotation.PostConstruct;
  * @description: TODO
  * @date 2020/4/1619:26
  */
-@Component
+//@Component
 @Slf4j
 public class RabbitTemplateConfig implements RabbitTemplate.ConfirmCallback,RabbitTemplate.ReturnCallback {
 
