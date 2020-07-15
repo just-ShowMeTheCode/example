@@ -29,14 +29,14 @@ public class CodeGeneration {
 
     @SuppressWarnings({"AlibabaMethodTooLong", "AlibabaRemoveCommentedCode"})
     public static void generator() throws IOException {
-        String modelName = "rabbitmq";
-        String[] tables = {"t_message"};
+        String modelName = "client";
+        String[] tables = {"t_msg_log"};
 
         AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = "D:\\work_code\\rabbitmq";
+        String projectPath = "D:\\work_code\\example\\rabbitmqdemo\\rabbitmq-client";
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setFileOverride(true);
         gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false
@@ -92,7 +92,7 @@ public class CodeGeneration {
         pc.setEntity("model");
         pc.setModuleName(modelName);
         pc.setParent("cn.com.citydo");
-        pc.setParent("com.demo");
+        pc.setParent("com.rabbitmq.demo");
         mpg.setPackageInfo(pc);
 
         // 自定义配置

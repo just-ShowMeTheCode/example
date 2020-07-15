@@ -16,7 +16,17 @@ public class SendMessageControllerTest {
 
     @org.junit.Test
     public void sendMessage() {
-        String resposne = HttpUtil.get(SERVER_URL + PORT + "/produceor/sendMessage");
+        int messageCount = 10;
+        String resposne = HttpUtil.get(SERVER_URL + PORT + "/produceor/sendMessage?messageCount="+messageCount);
+
+    }
+
+    @org.junit.Test
+    public void send() {
+        int messageCount = 10000;
+        int sleep = 0;
+        String resposne = HttpUtil.get(SERVER_URL + PORT
+                + "/produceor/send?messageCount="+messageCount + "&sleep=" + sleep);
 
     }
 

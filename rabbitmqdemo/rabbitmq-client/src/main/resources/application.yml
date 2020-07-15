@@ -11,6 +11,17 @@ spring:
     username: guest
     password: guest
     virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 1
+    publisher-confirms: true
+    publisher-returns: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/mq_message?autoReconnect=true&failOverReadOnly=false&characterEncoding=utf8&autoReconnect=true&useSSL=false&useUnicode=true
 mq:
   exchange: exchange2
   queue: Q2

@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
 public class ExchangeMQConfig {
 
     @Value("${mq.exchange}")
-    private String exchange;
+    private static String exchange;
 
     @Value("${mq.queue}")
-    private String queue;
+    private static String queue;
 
     @Bean
     public DirectExchange exchange() {
@@ -34,4 +34,11 @@ public class ExchangeMQConfig {
     }
 
 
+    public static String getExchange() {
+        return exchange;
+    }
+
+    public static String getQueue() {
+        return queue;
+    }
 }

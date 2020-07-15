@@ -10,7 +10,7 @@ public class ExchangeMQConfig {
 
     public static String QUEUE;
 
-    @Value("${spring.rabbitmq.queue.orderbilling}")
+    @Value("${mq.queue}")
     public void setQUEUE(String QUEUE) {
         ExchangeMQConfig.QUEUE = QUEUE;
     }
@@ -27,5 +27,4 @@ public class ExchangeMQConfig {
     public Queue queue() {
         return new Queue(QUEUE, true);
     }
-
 }

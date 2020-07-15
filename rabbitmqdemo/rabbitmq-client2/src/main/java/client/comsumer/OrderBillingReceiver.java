@@ -21,19 +21,32 @@ import java.io.IOException;
 public class OrderBillingReceiver {
 
 
-    @RabbitListener(queues = "order-billing-queue")
-    public void process(String queueMsg, Message message, Channel channel){
+    @RabbitListener(queues = "${mq.queue}",concurrency = "1")
+    public void process(String obj, Message message, Channel channel) throws IOException {
 
+//        try {
+//            log.info("receive message:{}", queueMsg);
+//            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+//        } catch (IOException e) {
+//            log.error(e.getMessage());
+//            try {
+//                channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
         try {
-            log.info("receive message:{}", queueMsg);
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            try {
-                channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            Thread.sleep(1000);
+            log.info("ACK返回  : " + obj);
+            if(obj.contains("order-9")){
+                throw new Exception("error");
             }
+            // 业务处理
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (Exception e) {
+//            e.printStackTrace();
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
+//            channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
         }
     }
 }

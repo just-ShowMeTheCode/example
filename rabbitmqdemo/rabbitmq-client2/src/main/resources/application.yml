@@ -6,21 +6,16 @@ spring:
     name: rabbitmq-client
   #配置rabbitMq 服务器
   rabbitmq:
-    host: 47.99.203.15
+    host: 172.16.24.52
     port: 5672
     username: guest
     password: guest
     virtual-host: /
-    queue:
-      orderbilling: order-billing-queue
-    #虚拟host 可以不设置,使用server默认host
     listener:
-      direct:
+      simple:
         acknowledge-mode: manual
-        prefetch: 3
-    cache:
-      connection:
-        mode: connection
-        size: 10
-      channel:
-        size: 10
+    publisher-confirms: true
+    publisher-returns: true
+mq:
+  exchange: exchange2
+  queue: Q2

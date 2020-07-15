@@ -11,11 +11,24 @@ spring:
     username: guest
     password: guest
     virtual-host: /
+    #开启 return 确认机制，接收确认borker 确认收到消息的信息
+    #通过实现 ReturnCallback 接口，启动消息失败返回，比如路由不到队列时触发回调
+    publisher-returns: true
+    #设置为 true 后 消费者在消息没有被路由到合适队列情况下会被return监听，而不会自动删除
+    template:
+      mandatory: true
+    # 消息发送确认
+    # 消息发送到 Broker 后触发回调，确认消息是否到达 Broker
+    # 服务器，也就是只确认是否正确到达 Exchange 中
+    publisher-confirms: true
+    listener:
+      simple:
+        acknowledge-mode: manual
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: l!vWT#mL93
-    url: jdbc:mysql://172.16.24.110:3306/fsp?autoReconnect=true&failOverReadOnly=false&characterEncoding=utf8&autoReconnect=true&useSSL=false&useUnicode=true
+    password: root
+    url: jdbc:mysql://localhost:3306/mq_message?autoReconnect=true&failOverReadOnly=false&characterEncoding=utf8&autoReconnect=true&useSSL=false&useUnicode=true
 
 
 mq:
