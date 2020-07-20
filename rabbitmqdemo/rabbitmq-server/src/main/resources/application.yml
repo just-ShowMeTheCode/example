@@ -32,5 +32,6 @@ spring:
 
 
 mq:
-  exchange: exchange2
-  queue: Q2
+  exchange: e2
+  queue: Q3
+  routeing-key: rk_q2

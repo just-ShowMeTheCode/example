@@ -40,6 +40,7 @@ public class MsgLogServiceImpl extends ServiceImpl<MsgLogMapper, MsgLog> impleme
         LambdaQueryWrapper<MsgLog> lambda = new QueryWrapper<MsgLog>().lambda();
         lambda.eq(MsgLog::getStatus, MessageStatusEnum.STATE3.getCode());
         lambda.le(MsgLog::getTryCount,3);
+
         return null;
     }
 }

@@ -44,7 +44,7 @@ public class ResendMsgJob {
             }else {
                 CorrelationData cd = new CorrelationData();
                 cd.setId(k.getMsgId());
-                rabbitTemplate.convertAndSend(ExchangeMQConfig.getQueue(),
+                rabbitTemplate.convertAndSend(ExchangeMQConfig.getRoutingKey(),
                         MessageBuilder.withBody(new Gson().toJson(k).getBytes()).build(),
                         cd);
             }

@@ -1,17 +1,20 @@
 package com.rabbitmq.demo.server.controller;
 
+import cn.hutool.core.util.RandomUtil;
 import com.google.gson.Gson;
 import com.rabbit.demo.common.bean.MessageStatusEnum;
 import com.rabbit.demo.common.bean.OrderBillingDto;
 import com.rabbit.demo.common.util.IdUtil;
+import com.rabbitmq.demo.server.config.ExchangeMQConfig;
 import com.rabbitmq.demo.server.model.MsgLog;
 import com.rabbitmq.demo.server.service.MsgLogService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,12 +38,6 @@ import java.util.List;
 @Slf4j
 public class SendMessageController {
 
-    @Value("${mq.exchange}")
-    private String exchange;
-
-    @Value("${mq.queue}")
-    private String queue;
-
 
     @Autowired
     private MsgLogService messageService;
@@ -57,8 +54,34 @@ public class SendMessageController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            rabbitTemplate.convertAndSend(queue,
-                    MessageBuilder.withBody(new Gson().toJson(dto).getBytes()).build());
+            CorrelationData correlationData = new CorrelationData();
+            correlationData.setId(String.valueOf(IdUtil.getTraceId()));
+            rabbitTemplate.convertAndSend(ExchangeMQConfig.getExchange(),
+                            ExchangeMQConfig.getRoutingKey(),
+                    MessageBuilder.withBody(new Gson().toJson(dto).getBytes()).build(),correlationData);
+        }
+
+        return ResponseEntity.ok("success");
+    }
+
+    @GetMapping("/prioritySendMessage")
+    public ResponseEntity prioritySendMessage(@RequestParam("messageCount") Integer  messageCount){
+        List<OrderBillingDto> billingList = createOrderBillingList(messageCount);
+        MessageProperties properties = new MessageProperties();
+        for (OrderBillingDto dto : billingList) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            dto.setTradeTime(LocalDateTime.now(ZoneId.systemDefault()));
+            properties.setPriority(RandomUtil.randomInt(1,10));
+            Message build = new Message(new Gson().toJson(dto).getBytes(),properties);
+            CorrelationData correlationData = new CorrelationData();
+            correlationData.setId(String.valueOf(IdUtil.getTraceId()));
+            rabbitTemplate.convertAndSend(ExchangeMQConfig.getExchange(),
+                    ExchangeMQConfig.getRoutingKey(),build
+                    ,correlationData);
         }
 
         return ResponseEntity.ok("success");
@@ -79,7 +102,8 @@ public class SendMessageController {
 
             CorrelationData correlationData =
                     new CorrelationData(String.valueOf(dto.getTransactionSerialNumber()));
-            rabbitTemplate.convertAndSend(queue,
+            rabbitTemplate.convertAndSend(ExchangeMQConfig.getExchange(),
+                    ExchangeMQConfig.getRoutingKey(),
                     MessageBuilder.withBody(new Gson().toJson(dto).getBytes()).build(),correlationData);
         }
 
@@ -118,8 +142,8 @@ public class SendMessageController {
             dto.setTradeTime(LocalDateTime.now(ZoneId.systemDefault()));
             MsgLog msgLog = new MsgLog();
             msgLog.setMsg(new Gson().toJson(dto))
-                    .setExchange(exchange)
-                    .setRoutingKey(queue)
+                    .setExchange(ExchangeMQConfig.getExchange())
+                    .setRoutingKey(ExchangeMQConfig.getQueue())
                     .setMsgId(dto.getTransactionSerialNumber())
                     .setStatus(MessageStatusEnum.STATE1.getCode())
                     .setTryCount(0);

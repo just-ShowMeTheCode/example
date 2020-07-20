@@ -12,9 +12,9 @@
     <artifactId>rabbitmqdemo</artifactId>
     <packaging>pom</packaging>
     <modules>
+        <module>rabbit-common</module>
         <module>rabbitmq-server</module>
         <module>rabbitmq-client</module>
-        <module>rabbit-common</module>
         <module>rabbitmq-client2</module>
     </modules>
 
@@ -45,6 +45,16 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
-
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.18.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

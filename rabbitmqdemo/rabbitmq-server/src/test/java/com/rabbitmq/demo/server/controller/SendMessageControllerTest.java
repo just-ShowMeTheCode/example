@@ -16,7 +16,7 @@ public class SendMessageControllerTest {
 
     @org.junit.Test
     public void sendMessage() {
-        int messageCount = 10;
+        int messageCount = 1;
         String resposne = HttpUtil.get(SERVER_URL + PORT + "/produceor/sendMessage?messageCount="+messageCount);
 
     }
@@ -27,6 +27,15 @@ public class SendMessageControllerTest {
         int sleep = 0;
         String resposne = HttpUtil.get(SERVER_URL + PORT
                 + "/produceor/send?messageCount="+messageCount + "&sleep=" + sleep);
+
+    }
+
+
+    @org.junit.Test
+    public void prioritySend() {
+        int messageCount = 50;
+        String resposne =
+                HttpUtil.get(SERVER_URL + PORT + "/produceor/prioritySendMessage?messageCount="+messageCount);
 
     }
 

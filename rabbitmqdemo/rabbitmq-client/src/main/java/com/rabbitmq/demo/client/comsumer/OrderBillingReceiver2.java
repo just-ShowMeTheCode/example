@@ -31,7 +31,7 @@ public class OrderBillingReceiver2 {
     @Autowired
     private MsgLogService msgLogService;
 
-    @RabbitListener(queues = "${mq.queue}",concurrency = "4")
+    @RabbitListener(queues = "${mq.queue}",concurrency = "1")
     @RabbitHandler
     public void process(Channel channel, Message message) throws IOException {
         try {
@@ -44,9 +44,11 @@ public class OrderBillingReceiver2 {
                 log.info("重复消费, msgId: {}", msgLog.getMsgId());
                 return;
             }
-//            if(obj.contains("order")){
-//                throw new Exception("error");
-//            }
+
+//            double d = 1 / 0;
+
+            // 模拟业务处理
+            Thread.sleep(1000);
             // 业务处理
             msgLog.setStatus(MessageStatusEnum.STATE2.getCode());
             msgLogService.updateById(msgLog);
@@ -54,14 +56,15 @@ public class OrderBillingReceiver2 {
             log.info("（1） deliverTag:{}",message.getMessageProperties().getDeliveryTag());
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
-//            e.printStackTrace();
+            log.error("消费失败 {}",e);
+//            log.error("消费失败 {}");
             channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
         }
     }
 
 
-    @RabbitListener(queues = "${mq.queue}",concurrency = "1")
-    @RabbitHandler
+//    @RabbitListener(queues = "${mq.queue}",concurrency = "1")
+//    @RabbitHandler
     public void process2(Channel channel, Message message) throws IOException {
         try {
             OrderBillingDto dto = new Gson()

@@ -46,7 +46,7 @@ public class RabbitTemplateConfig implements RabbitTemplate.ConfirmCallback,Rabb
         if(ack){
             log.info("Success... 消息成功发送到交换机! correlationData:{}", correlationData);
         }else {
-            log.info("Fail... 消息发送到交换机失败! correlationData:{}", correlationData);
+            log.error("Fail... 消息发送到交换机失败! correlationData:{}", correlationData);
             String id = correlationData.getId();
             msgLogService.updateMsgLogStatus(id, MessageStatusEnum.STATE3);
         }
@@ -56,7 +56,11 @@ public class RabbitTemplateConfig implements RabbitTemplate.ConfirmCallback,Rabb
     public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
         log.error("Fail... message:{},从交换机exchange:{},以路由键routingKey:{}," +
                         "未找到匹配队列，replyCode:{},replyText:{}",
-                message, exchange, routingKey, replyCode, replyText);
+                new String(message.getBody()), exchange, routingKey, replyCode, replyText);
+
+//        OrderBillingDto dto = new Gson().fromJson(new String(message.getBody()), OrderBillingDto.class);
+//        String id = dto.getTransactionSerialNumber();
+//        msgLogService.updateMsgLogStatus(id, MessageStatusEnum.STATE3);
 
     }
 
