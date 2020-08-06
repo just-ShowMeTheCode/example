@@ -1,6 +1,8 @@
 package com.rabbitmq.demo.server.controller;
 
 import cn.hutool.http.HttpUtil;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author fumj
@@ -42,7 +44,7 @@ public class SendMessageControllerTest {
     @org.junit.Test
     public void sendMessage2() {
         String resposne = HttpUtil.get(SERVER_URL + PORT + "/produceor/sendMessage2");
-
+        ApplicationContext context = new ClassPathXmlApplicationContext("");
     }
 
 
