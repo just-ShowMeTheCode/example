@@ -29,14 +29,14 @@ public class CodeGeneration {
 
     @SuppressWarnings({"AlibabaMethodTooLong", "AlibabaRemoveCommentedCode"})
     public static void generator() throws IOException {
-        String modelName = "client";
-        String[] tables = {"t_msg_log"};
+        String modelName = "organization";
+        String[] tables = {"t_collaborate_organization"};
 
         AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = "D:\\work_code\\example\\rabbitmqdemo\\rabbitmq-client";
+        String projectPath = "D:\\work_code\\financial-service-platform\\fsp-services\\fsp-organization";
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setFileOverride(true);
         gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false
@@ -59,14 +59,14 @@ public class CodeGeneration {
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
         dsc.setDriverName("com.mysql.jdbc.Driver");
-//        dsc.setUsername("root");
-//        dsc.setPassword("l!vWT#mL93");
-//        dsc.setUrl("jdbc:mysql://172.16.24.110:3306/fsp?serverTimezone=UTC&useUnicode=true&useSSL=false" +
-//                "&characterEncoding=utf8");
-                dsc.setUsername("root");
-        dsc.setPassword("root");
-        dsc.setUrl("jdbc:mysql://localhost:3306/mq_message?serverTimezone=UTC&useUnicode=true&useSSL=false" +
+        dsc.setUsername("root");
+        dsc.setPassword("l!vWT#mL93");
+        dsc.setUrl("jdbc:mysql://172.16.24.110:3306/fsp?serverTimezone=UTC&useUnicode=true&useSSL=false" +
                 "&characterEncoding=utf8");
+//                dsc.setUsername("root");
+//        dsc.setPassword("root");
+//        dsc.setUrl("jdbc:mysql://localhost:3306/mq_message?serverTimezone=UTC&useUnicode=true&useSSL=false" +
+//                "&characterEncoding=utf8");
 
         mpg.setDataSource(dsc);
 
@@ -92,7 +92,7 @@ public class CodeGeneration {
         pc.setEntity("model");
         pc.setModuleName(modelName);
         pc.setParent("cn.com.citydo");
-        pc.setParent("com.rabbitmq.demo");
+//        pc.setParent("com.rabbitmq.demo");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
