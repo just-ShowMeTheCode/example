@@ -17,6 +17,8 @@
         <module>kinfe4j-demo</module>
         <module>jvm</module>
         <module>http-connect-pool-demo</module>
+        <module>stringtemplatedemo</module>
+        <module>collectiondemo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
